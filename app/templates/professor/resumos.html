@@ -19,6 +19,7 @@
                   <th width="15%"> Titulo </th>
                   <th width="40%"> Texto </th>
                   <th width="15%"> Autor(s) </th>
+                  <th width="15%"> Situacao </th>
                   <th width="15%"> Aprovar </th>
                   <th width="15%"> Reprovar </th>
                 </tr>
@@ -30,12 +31,12 @@
                   <td> {{ resumo.texto }} </td>
                   <td>{{resumo.autor}}</td>
                   <td>
-                    <a href="{{#}}">
+                    <a href="{{ url_for('professor.aprovar_resumo', id=resumo.id) }}">
                       <i class="fa fa-pencil"></i> Aprovar 
                     </a>
                   </td>
                   <td>
-                    <a href="{{#}}">
+                    <a href="{{ url_for('professor.reprovar_resumo', id=resumo.id) }}">
                       <i class="fa fa-trash"></i> Reprovar 
                     </a>
                   </td>
@@ -50,10 +51,6 @@
               <h3> Você não tem resumos cadastrados :/ </h3>
               <hr class="intro-divider">
           {% endif %}
-            {% comment %} <a href="{{#}}" class="btn btn-default btn-lg">
-              <i class="fa fa-plus"></i>
-              Adicionar resumo
-            </a> {% endcomment %}
           </div>
         </div>
       </div>
