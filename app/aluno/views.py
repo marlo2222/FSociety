@@ -75,7 +75,7 @@ def submeter_resumo():
             else:
                 flash('Error: Nome autor invalido.')
     else:
-        flash('Prazo encerrado.')    
+        flash('Prazo encerrado.')   
     # load resumos template
     return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=True, form=form,title="Submeter resumo")
 
@@ -100,7 +100,7 @@ def verificar_data():
         data = '{}/0{}/{}'.format(dataHoje.day,dataHoje.month, dataHoje.year)
     else:
         data = '{}/{}/{}'.format(dataHoje.day,dataHoje.month, dataHoje.year)
-    return data > '15/12/2018'
+    return data > '11/11/2018'
 
 @aluno.route('/aluno/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
