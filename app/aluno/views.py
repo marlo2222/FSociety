@@ -4,12 +4,13 @@ from . import aluno
 from .forms import SubmissaoForm
 from .. import db
 from ..models import Usuario, Resumo, Avaliador
+import re
 
 # def check_aluno():
 #     if not current_user.is_aluno:
 #         abort(403)
 
-def distribui_resumo(id):
+def distribuir_resumo(id):
     prof = Usuario.query.filter_by(is_prof=True)
     resumos = Resumo.query.all()
     qtd_a = len(prof)
@@ -19,7 +20,7 @@ def distribui_resumo(id):
     for a in prof:
         if Avaliador.query.all():
             avaliador = Avaliador.query.get_by(a.id)
-            if (len(avaliador) < qtd):
+            if (len(avaliador) <= qtd):
                 aux = Avaliador(avaliador=a.id, resumo=id)
                 db.session.add(aux)
                 db.session.commit()
@@ -42,23 +43,19 @@ def visualizar_resumos():
     resumo = Resumo.query.all()
 
     return render_template('aluno/resumos/resumos.html',
-                           resumo=resumo, title="Resumos")
+                           resumos=resumo, title="Resumos")
 #//////////////////////////////// interminado
 
 
 @aluno.route('/aluno/submeter', methods=['GET', 'POST'])
 @login_required
 def submeter_resumo():
-    add_resumo = True
-
     form = SubmissaoForm()
     
     if form.validate_on_submit():
-        resumo = Resumo(titulo=form.titulo.data,
-                                resumo=form.texto.data,
-                                autor=form.autor.data)
-        if verificarAutor(self,form.autor.data):
-            if verificarTitulo(self,form.titulo.data):
+        if verificarAutor(form.autor.data):
+            if verificarTitulo(form.titulo.data):
+                resumo = Resumo(titulo=form.titulo.data, texto=form.texto.data, autor=form.autor.data)
                 try:
                     # add o resumo no banco de dados
                     db.session.add(resumo)
@@ -72,31 +69,24 @@ def submeter_resumo():
                 # redirect to departments page
                 return redirect(url_for('aluno.visualizar_resumos'))
             else:
-                flash('Error: Tirulo invalido.')
+                flash('Error: Titulo invalido.')
         else:
             flash('Error: Nome autor invalido.')
     # load resumos template
-    return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=add_resumo, form=form,title="Submeter resumo")
+    return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=True, form=form,title="Submeter resumo")
 
-def verificarAutor(self,field):
-    string = field.data
-    result = re.search(r"/d", string,re.MULTILINE)
-    if result == None:
+def verificarAutor(field):
+    if not re.search(r"/d",field, re.MULTILINE):
         return True
     return False
-def  verificarTitulo(self,field):
-    string = field.data
-    result = re.search(r"/W", string,re.MULTILINE)
-    if result == None:
+def  verificarTitulo(field):
+    if not re.search(r"/W", field, re.MULTILINE):
         return True
     return False
 
 @aluno.route('/aluno/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def alterar_resumo(id):
-
-    add_resumo = False
-
     resumo = Resumo.query.get_or_404(id) #qual nossa modificação?
 
     form = SubmissaoForm(obj=resumo)
@@ -120,7 +110,7 @@ def alterar_resumo(id):
     form.texto.data = resumo.texto
     form.co_autor.data = resumo.co_autor 
     return render_template('aluno/resumos/resumo.html', action="Edit",
-                           add_resumo=add_resumo, form=form,
+                           add_resumo=False, form=form,
                            resumo=resumo, title="Editar resumo")
 
 @aluno.route('/aluno/delete/<int:id>', methods=['GET', 'POST'])
