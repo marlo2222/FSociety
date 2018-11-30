@@ -50,3 +50,7 @@ class Avaliador(db.Model):
 
     def __repr__(self):
         return '<>Avaliador: {}'.format(self.avaliador)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(int(user_id))

@@ -14,8 +14,8 @@ def check_professor():
 def visualizar_resumos():
     check_professor()
 
-    resumo = Resumo.query.join(Avaliador, resumos.id==avaliadores.resumo).add_columns(resumos.titulo, 
-                                resumos.texto, resumos.situacao, resumos.autor).filter(resumos.id==avaliadores.resumo)
+    resumo = Resumo.query.join(Avaliador, Resumo.id==Avaliador.resumo).add_columns(Resumo.titulo, 
+                                Resumo.texto, Resumo.situacao, Resumo.autor).filter(Resumo.id==Avaliador.resumo)
 
     return render_template('professor/resumos.html',
                             resumos=resumo, title='Resumos')
@@ -37,7 +37,7 @@ def aprovar_resumo(id):
         except:
             flash('Error: Nao pode aprovar o resumo')
 
-        return redirect(url_for('professor.list_resumos'))
+        return redirect(url_for('professor.visualizar_resumos'))
 
     return render_template('professor/resumos',action='Aprovar',
                             aprovar_resumo=True, resumo=resumo,
@@ -60,7 +60,7 @@ def reprovar_resumo(id):
         except:
             flash('Error: Nao pode reprovar o resumo')
 
-        return redirect(url_for('professor.list_resumos'))
+        return redirect(url_for('professor.visualizar_resumos'))
 
     return render_template('professor/resumos',action='Reprovar',
                             aprovar_resumo=False, resumo=resumo,

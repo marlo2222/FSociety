@@ -11,10 +11,10 @@ from ..models import Usuario
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        if verificaNome(form.username.data):
+        if verificaNome(form.nome.data):
             if verificaSenha(form.password.data):
-                usuario = Usuario(email=form.email.data,username=form.username.data,password=form.password.data)
-                if verificarEmail(form.email.data):
+                usuario = Usuario(email=form.email.data,nome=form.nome.data,password=form.password.data)
+                if verificar_email(form.email.data):
                     db.session.add(usuario)
                     db.session.commit()
                     flash('You have successfully registered! You may now login.')
@@ -31,15 +31,15 @@ def register():
 
     return render_template('usuario/register.html', form=form, title='Register')
 
-def verificaNome(self,field):
-    string = field.data
+def verificaNome(field):
+    string = field
     result = re.search(r"/d", string,re.MULTILINE)
     if result == None:
         return True
     return False
 
-def verificaSenha(self,field):
-    string = field.data
+def verificaSenha(field):
+    string = field
     if len(string) >= 8:
         result = re.search(r"/W", string,re.MULTILINE)
         if result == None:
@@ -47,23 +47,30 @@ def verificaSenha(self,field):
         return False
     return False
 
-def verificarEmail(self,field):
-    string1 = field
-    result = re.search(r"alu.ufc.com", string,re.MULTILINE)
-    if result == None:
-        return True
-    else:
+# def verificarEmail(self,field):
+#     string1 = field
+#     result = re.search(r"alu.ufc.com", string,re.MULTILINE)
+#     if result == None:
+#         return True
+#     else:
+#         return False
+
+# wtf???? Duas funções iguais? ^^^
+# def verificarEmail(self,field):
+#     string1 = field
+#     result = re.search(r"alu.ufc.com", string,re.MULTILINE)
+#     if result == None:
+#         return True
+#     else:
+#         return False
+
+#Não era para ser isso não
+def verificar_email(field):
+    if (re.search(r"alu.ufc.com", field, re.MULTILINE)):
         return False
-
-
-def verificarEmail(self,field):
-    string1 = field
-    result = re.search(r"alu.ufc.com", string,re.MULTILINE)
-    if result == None:
+    elif (re.search(r"ufc.com", field, re.MULTILINE)):
         return True
-    else:
-        return False
-
+    else: return
 
 @usuario.route('/login', methods=['GET', 'POST'])
 def login():

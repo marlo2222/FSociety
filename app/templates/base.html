@@ -24,7 +24,7 @@
                   {% if current_user.is_authenticated %}
                     {% if current_user.is_professor() %}
                         <li><a href="{{ url_for('main.professor_dashboard') }}">Dashboard</a></li>
-                        <li><a href="{{ url_for('professor.listar_resumos') }}">Resumos</a></li>
+                        <li><a href="{{ url_for('professor.visualizar_resumos') }}">Resumos</a></li>
                     {% else %}
                         <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
                     {% endif %}
