@@ -12,7 +12,7 @@ class SubmissaoForm(FlaskForm):
     titulo = StringField('Titulo', validators=[DataRequired()])
     texto = StringField('Texto', validators=[DataRequired()])
     #Trocar para TextField
-    autor = StringField('Autor', validators=[DataRequired()])
+    autor = TextField('Autor', validators=[DataRequired()])
     #co_autor = StringField('Co-Autores', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
