@@ -16,5 +16,4 @@ class SubmissaoForm(FlaskForm):
     def validate_titulo(self, field):
         if Resumo.query.filter_by(titulo=field.data).first():
             raise ValidationError('Um resumo de mesmo titulo já cadastrado')
-    submit = SubmitField('Submit')
-    submit = SubmitField('Submit')
+
