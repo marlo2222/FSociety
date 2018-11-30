@@ -49,7 +49,6 @@ def visualizar_resumos():
 @aluno.route('/aluno/submeter', methods=['GET', 'POST'])
 @login_required
 def submeter_resumo():
-
     add_resumo = True
 
     form = SubmissaoForm()
@@ -58,19 +57,24 @@ def submeter_resumo():
         resumo = Resumo(titulo=form.titulo.data,
                                 resumo=form.texto.data,
                                 autor=form.autor.data)
-        try:
-            # add o resumo no banco de dados
-            db.session.add(resumo)
-            db.session.commit()
-            flash('Seu resumo foi submetido com sucesso.')
-            distribuir_resumo(id)
-        except:
-            # caso o resumo já tenha sido submetido
-            flash('Error: O resumo já foi enviado.')
+        if verificarAutor(self,form.autor.data):
+            if verificarTitulo(self,form.titulo.data):
+                try:
+                    # add o resumo no banco de dados
+                    db.session.add(resumo)
+                    db.session.commit()
+                    flash('Seu resumo foi submetido com sucesso.')
+                    distribuir_resumo(id)
+                except:
+                    # caso o resumo já tenha sido submetido
+                    flash('Error: O resumo já foi enviado.')
 
-        # redirect to departments page
-        return redirect(url_for('aluno.list_resumos'))
-
+                # redirect to departments page
+                return redirect(url_for('aluno.list_resumos'))
+            else:
+                flash('Error: Tirulo invalido.')
+        else:
+            flash('Error: Nome autor invalido.')
     # load resumos template
     return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=add_resumo, form=form,title="Submeter resumo")
 
