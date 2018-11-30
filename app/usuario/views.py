@@ -46,25 +46,6 @@ def verificaSenha(field):
             return True
         return False
     return False
-
-# def verificarEmail(self,field):
-#     string1 = field
-#     result = re.search(r"alu.ufc.com", string,re.MULTILINE)
-#     if result == None:
-#         return True
-#     else:
-#         return False
-
-# wtf???? Duas funções iguais? ^^^
-# def verificarEmail(self,field):
-#     string1 = field
-#     result = re.search(r"alu.ufc.com", string,re.MULTILINE)
-#     if result == None:
-#         return True
-#     else:
-#         return False
-
-#Não era para ser isso não
 def verificar_email(field):
     if (re.search(r"alu.ufc.com", field, re.MULTILINE)):
         return False
