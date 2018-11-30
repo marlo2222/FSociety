@@ -27,9 +27,10 @@
                         <li><a href="{{ url_for('professor.visualizar_resumos') }}">Resumos</a></li>
                     {% else %}
                         <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('aluno.visualizar_resumos') }}">Resumos</a></li>
                     {% endif %}
                     <li><a href="{{ url_for('usuario.logout') }}">Logout</a></li>
-                    <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.username }}!</a></li>
+                    <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.nome }}!</a></li>
                   {% else %}
                     <li><a href="{{ url_for('main.index') }}">Home</a></li>
                     <li><a href="{{ url_for('usuario.register') }}">Register</a></li>
