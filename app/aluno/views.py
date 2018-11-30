@@ -71,10 +71,8 @@ def submeter_resumo():
         # redirect to departments page
         return redirect(url_for('aluno.list_resumos'))
 
-    # load department template
-    return render_template('aluno/resumos/resumo.html', action="Add",
-                           add_resumo=add_resumo, form=form,
-                           title="Submeter resumo")
+    # load resumos template
+    return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=add_resumo, form=form,title="Submeter resumo")
 
 @aluno.route('/aluno/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required

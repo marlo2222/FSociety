@@ -40,10 +40,21 @@ def verificaNome(self,field):
 
 def verificaSenha(self,field):
     string = field.data
-    result = re.search(r"/W", string,re.MULTILINE)
+    if len(string) >= 8:
+        result = re.search(r"/W", string,re.MULTILINE)
+        if result == None:
+            return True
+        return False
+    return False
+
+def verificarEmail(self,field):
+    string1 = field
+    result = re.search(r"alu.ufc.com", string,re.MULTILINE)
     if result == None:
         return True
-    return False
+    else:
+        return False
+
 
 def verificarEmail(self,field):
     string1 = field
