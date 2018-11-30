@@ -10,7 +10,6 @@ class Usuario(UserMixin, db.Model):
     email = db.Column(db.String(64), index=True, unique=True)
     is_prof = db.Column(db.Boolean, default=False)
     password_hash = db.Column(db.String(64))
-    resumo = db.relationship('Resumo', backref='usuarios', lazy='dynamic')
 
     @property
     def password(self):
