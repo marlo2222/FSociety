@@ -56,6 +56,15 @@ def verificarEmail(self,field):
         return False
 
 
+def verificarEmail(self,field):
+    string1 = field
+    result = re.search(r"alu.ufc.com", string,re.MULTILINE)
+    if result == None:
+        return True
+    else:
+        return False
+
+
 @usuario.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
