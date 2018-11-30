@@ -1,0 +1,52 @@
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from . import db, login_manager
+
+class Usuario(UserMixin, db.Model):
+    __tablename__ = 'usuarios'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(64), unique=True)#alpha?
+    email = db.Column(db.String(64), index=True, unique=True)
+    is_prof = db.Column(db.Boolean, default=False)
+    password_hash = db.Column(db.String(64))
+    resumo = db.relationship('Resumo', backref='usuarios', lazy='dynamic')
+
+    @property
+    def password(self):
+        raise AttributeError("A senha nao e um atributo que pode ser lido")
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def is_professor(self):
+        return self.is_prof
+
+    def __repr__(self):
+        return '<>Usuario: {}'.format(self.nome)
+
+class Resumo(db.Model):
+    __tablename__ = 'resumos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    titulo = db.Column(db.String(64), unique=True)
+    texto = db.Column(db.String(512))
+    situacao = db.Column(db.String(32), default='Submetido')
+    autor = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+
+    def __repr__(self):
+        return '<Resumo: {}>'.format(self.titulo)
+
+# class Avaliador(db.Model):
+#     __tablename__ = 'avaliadores'
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     avaliador = db.Column(db.Integer, db.ForeignKey('Usuario.id'))
+#     resumo = db.Column(db.Integer, db.ForeignKey('Resumo.id'))
+
+#     def __repr__(self):
+#         return '<>Avaliador: {}'.format(self.avaliador)

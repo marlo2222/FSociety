@@ -1,0 +1,63 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block body %}
+<div class="content-section">
+    <div class="outer">
+      <div class="middle">
+        <div class="inner">
+          <br/>
+          {{ utils.flashed_messages() }}
+          <br/>
+          <h1 style="text-align:center;">Usuarios</h1>
+          {% if resumos %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th width="15%"> Titulo </th>
+                  <th width="40%"> Texto </th>
+                  <th width="15%"> Autor(s) </th>
+                  <th width="15%"> Aprovar </th>
+                  <th width="15%"> Reprovar </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for resumo in resumos %}
+                <tr>
+                  <td> {{ resumo.titulo }} </td>
+                  <td> {{ resumo.texto }} </td>
+                  <td>{{resumo.autor}}</td>
+                  <td>
+                    <a href="{{#}}">
+                      <i class="fa fa-pencil"></i> Aprovar 
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{#}}">
+                      <i class="fa fa-trash"></i> Reprovar 
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: center">
+            {% else %}
+            <div style="text-align: center">
+              <h3> Você não tem resumos cadastrados :/ </h3>
+              <hr class="intro-divider">
+          {% endif %}
+            {% comment %} <a href="{{#}}" class="btn btn-default btn-lg">
+              <i class="fa fa-plus"></i>
+              Adicionar resumo
+            </a> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  
