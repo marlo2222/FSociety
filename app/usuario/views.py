@@ -13,8 +13,9 @@ def register():
     if form.validate_on_submit():
         if verificaNome(form.nome.data):
             if verificaSenha(form.password.data):
-                usuario = Usuario(email=form.email.data,nome=form.nome.data,password=form.password.data)
-                if verificar_email(form.email.data):
+                bol = verificar_email(form.email.data)
+                if bol[0]:
+                    usuario = Usuario(email=form.email.data,nome=form.nome.data,password=form.password.data,is_prof=bol[1])
                     db.session.add(usuario)
                     db.session.commit()
                     flash('You have successfully registered! You may now login.')
@@ -46,12 +47,16 @@ def verificaSenha(field):
             return True
         return False
     return False
+<<<<<<< HEAD
+=======
+
+>>>>>>> 65aa5e1ac2abf1563c1327e1e52c020426d432eb
 def verificar_email(field):
     if (re.search(r"alu.ufc.com", field, re.MULTILINE)):
-        return False
+        return True, False
     elif (re.search(r"ufc.com", field, re.MULTILINE)):
-        return True
-    else: return
+        return True, True
+    else: return False, False
 
 @usuario.route('/login', methods=['GET', 'POST'])
 def login():
@@ -62,7 +67,7 @@ def login():
         if usuario is not None and usuario.verify_password(form.password.data):
             login_user(usuario)
 
-            if usuario.is_professor:
+            if usuario.is_prof:
                 #falta troca
                 return redirect(url_for('main.professor_dashboard'))
             else:
