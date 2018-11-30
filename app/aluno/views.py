@@ -74,6 +74,19 @@ def submeter_resumo():
     # load resumos template
     return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=add_resumo, form=form,title="Submeter resumo")
 
+def verificarAutor(self,field):
+    string = field.data
+    result = re.search(r"/d", string,re.MULTILINE)
+    if result == None:
+        return True
+    return False
+def  verificarTitulo(self,field):
+    string = field.data
+    result = re.search(r"/W", string,re.MULTILINE)
+    if result == None:
+        return True
+    return False
+
 @aluno.route('/aluno/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def alterar_resumo(id):
