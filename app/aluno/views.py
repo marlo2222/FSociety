@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from . import aluno
 from .forms import SubmissaoForm
 from .. import db
-from ..models import Usuario, Resumo, Avaliador
+from ..models import Usuario, Resumo, 
 
 # def check_aluno():
 #     if not current_user.is_aluno:
