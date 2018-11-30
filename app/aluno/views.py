@@ -3,11 +3,34 @@ from flask_login import current_user, login_required
 from . import aluno
 from .forms import SubmissaoForm
 from .. import db
-from ..models import Usuario, Resumo
+from ..models import Usuario, Resumo, Avaliador
 
 # def check_aluno():
 #     if not current_user.is_aluno:
 #         abort(403)
+
+def distribui_resumo(id):
+    prof = Usuario.query.filter_by(is_prof=True)
+    resumos = Resumo.query.all()
+    qtd_a = len(prof)
+    qtd_r = len(resumos)
+    qtd = qtd_r//qtd_a
+
+    for a in prof:
+        if Avaliador.query.all():
+            avaliador = Avaliador.query.get_by(a.id)
+            if (len(avaliador) < qtd):
+                aux = Avaliador(avaliador=a.id, resumo=id)
+                db.session.add(aux)
+                db.session.commit()
+                return
+            else:
+                continue
+        else:
+            aux = Avaliador(avaliador=a.id, resumo=id)
+            db.session.add(aux)
+            db.session.commit()
+            return
 
 # tarefas do aluno
 
@@ -40,6 +63,7 @@ def submeter_resumo():
             db.session.add(resumo)
             db.session.commit()
             flash('Seu resumo foi submetido com sucesso.')
+            distribuir_resumo(id)
         except:
             # caso o resumo já tenha sido submetido
             flash('Error: O resumo já foi enviado.')

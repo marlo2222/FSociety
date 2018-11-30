@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from . import professor
 from .forms import SubmissaoForm
 from .. import db
-from ..models import Usuario, Resumo
+from ..models import Usuario, Resumo, Avaliador
 
 def check_professor():
     if not current_user.is_prof:
@@ -24,7 +24,7 @@ def visualizar_resumos():
 def aprovar_resumo(id):
     resumo = Resumo.query.get_or_404(id)
 
-    #form = SubmissaoForm(obj=resumo)
+    form = SubmissaoForm(obj=resumo)
 
     if form.validate_on_submit():
         resumo.situacao = 'Aprovado'
@@ -47,7 +47,7 @@ def aprovar_resumo(id):
 def reprovar_resumo(id):
     resumo = Resumo.query.get_or_404(id)
 
-    #form = SubmissaoForm(obj=resumo)
+    form = SubmissaoForm(obj=resumo)
 
     if form.validate_on_submit():
         resumo.situacao = 'Reprovado'
