@@ -15,7 +15,7 @@ def visualizar_resumos():
     check_professor()
 
     resumo = Resumo.query.join(Avaliador, Resumo.id==Avaliador.resumo).add_columns(Resumo.titulo, 
-                                Resumo.texto, Resumo.situacao, Resumo.autor).filter(Resumo.id==Avaliador.resumo)
+                                Resumo.texto, Resumo.situacao, Resumo.autores).filter(Resumo.id==Avaliador.resumo)
 
     return render_template('professor/resumos.html',
                             resumos=resumo, title='Resumos')

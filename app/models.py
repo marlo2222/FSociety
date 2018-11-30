@@ -28,6 +28,11 @@ class Usuario(UserMixin, db.Model):
     def __repr__(self):
         return '<>Usuario: {}'.format(self.nome)
 
+fk_usuarios_resumos = db.Table('autores_do_resumo',
+                        db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+                        db.Column('resumo_id', db.Integer, db.ForeignKey('resumos.id'), primary_key=True))
+
+
 class Resumo(db.Model):
     __tablename__ = 'resumos'
 
@@ -54,7 +59,3 @@ class Avaliador(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
-
-fk_usuarios_resumos = db.Table('autores_do_resumo',
-                                db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
-                                db.Column('resumo_id', db.Integer, db.ForeignKey('resumos.id'), primary_key=True))
