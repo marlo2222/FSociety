@@ -29,8 +29,6 @@ class Usuario(UserMixin, db.Model):
     def __repr__(self):
         return '<>Usuario: {}'.format(self.nome)
 
-#######3
-
 class Resumo(db.Model):
     __tablename__ = 'resumos'
 
