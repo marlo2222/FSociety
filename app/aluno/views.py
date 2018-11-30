@@ -70,7 +70,7 @@ def submeter_resumo():
                     flash('Error: O resumo já foi enviado.')
 
                 # redirect to departments page
-                return redirect(url_for('aluno.list_resumos'))
+                return redirect(url_for('aluno.visualizar_resumos'))
             else:
                 flash('Error: Tirulo invalido.')
         else:
@@ -114,7 +114,7 @@ def alterar_resumo(id):
             flash('Error: resumo existente.')
 
         # redirect to the departments page
-        return redirect(url_for('aluno.list_resumos'))
+        return redirect(url_for('aluno.visualizar_resumos'))
 
     form.titulo.data = resumo.titulo
     form.texto.data = resumo.texto
@@ -132,6 +132,6 @@ def apagar_resumo(id):
     db.session.commit()
     flash('Seu resumo foi apagado com sucesso.')
 
-    return redirect(url_for('aluno.list_resumos'))
+    return redirect(url_for('aluno.visualizar_resumos'))
 
 #    return render_template(title="Delete Department")
