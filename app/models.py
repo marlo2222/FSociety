@@ -41,12 +41,12 @@ class Resumo(db.Model):
     def __repr__(self):
         return '<Resumo: {}>'.format(self.titulo)
 
-# class Avaliador(db.Model):
-#     __tablename__ = 'avaliadores'
+class Avaliador(db.Model):
+    __tablename__ = 'avaliadores'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     avaliador = db.Column(db.Integer, db.ForeignKey('Usuario.id'))
-#     resumo = db.Column(db.Integer, db.ForeignKey('Resumo.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    avaliador = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    resumo = db.Column(db.Integer, db.ForeignKey('resumos.id'))
 
-#     def __repr__(self):
-#         return '<>Avaliador: {}'.format(self.avaliador)
+    def __repr__(self):
+        return '<>Avaliador: {}'.format(self.avaliador)
