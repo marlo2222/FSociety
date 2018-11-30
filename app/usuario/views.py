@@ -13,13 +13,16 @@ def register():
     if form.validate_on_submit():
         if verificaNome(form.username.data):
             if verificaSenha(form.password.data):
-                usuario = Usuario(email=form.email.data,
-                                    username=form.username.data,
-                                    password=form.password.data)
-
-                db.session.add(usuario)
-                db.session.commit()
-                flash('You have successfully registered! You may now login.')
+                usuario = Usuario(email=form.email.data,username=form.username.data,password=form.password.data)
+                if verificarEmail(form.email.data):
+                    db.session.add(usuario)
+                    db.session.commit()
+                    flash('You have successfully registered! You may now login.')
+                else:
+                    usuario.is_prof = True
+                    db.session.add(usuario)
+                    db.session.commit()
+                    flash('You have successfully registered! You may now login.')
             else:
                 flash('Sua senha é ruim')
         else:
@@ -41,6 +44,15 @@ def verificaSenha(self,field):
     if result == None:
         return True
     return False
+
+def verificarEmail(self,field):
+    string1 = field
+    result = re.search(r"alu.ufc.com", string,re.MULTILINE)
+    if result == None:
+        return True
+    else:
+        return False
+
 
 @usuario.route('/login', methods=['GET', 'POST'])
 def login():
