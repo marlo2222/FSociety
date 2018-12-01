@@ -109,20 +109,24 @@ def alterar_resumo(id):
 
     form = SubmissaoForm(obj=resumo)
 
-    if form.validate_on_submit():
-        resumo.titulo = form.titulo.data
-        resumo.texto = form.texto.data
-        #resumo.co_autor = form.co_autor.data
-        try:
-            db.session.add(resumo)
-            db.session.commit()
-            flash('Resumo alterado com sucesso.')
-        except:
-            # in case department name already exists
-            flash('Error: resumo existente.')
+    if not verificar_data(): 
+        if form.validate_on_submit():
+            resumo.titulo = form.titulo.data
+            resumo.texto = form.texto.data
+            #resumo.co_autor = form.co_autor.data
+            try:
+                db.session.add(resumo)
+                db.session.commit()
+                flash('Resumo alterado com sucesso.')
+            except:
+                # in case department name already exists
+                flash('Error: resumo existente.')
 
-        # redirect to the departments page
-        return redirect(url_for('aluno.visualizar_resumos'))
+            # redirect to the departments page
+            return redirect(url_for('aluno.visualizar_resumos'))
+    else:
+        flash('Prazo encerrado')
+
 
     form.titulo.data = resumo.titulo
     form.texto.data = resumo.texto
@@ -135,10 +139,13 @@ def alterar_resumo(id):
 @login_required
 def apagar_resumo(id):
 
-    resumo = Resumo.query.get_or_404(id)
-    db.session.delete(resumo)
-    db.session.commit()
-    flash('Seu resumo foi apagado com sucesso.')
+    if not verificar_data(): 
+        resumo = Resumo.query.get_or_404(id)
+        db.session.delete(resumo)
+        db.session.commit()
+        flash('Seu resumo foi apagado com sucesso.')
+    else:
+        flash('Prazo encerrado')
 
     return redirect(url_for('aluno.visualizar_resumos'))
 
