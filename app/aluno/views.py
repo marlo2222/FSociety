@@ -4,6 +4,7 @@ from . import aluno
 from .forms import SubmissaoForm
 from .. import db
 from ..models import Usuario, Resumo, Avaliador
+from datetime import date
 import re
 
 # def check_aluno():
@@ -52,26 +53,29 @@ def visualizar_resumos():
 def submeter_resumo():
     form = SubmissaoForm()
     
-    if form.validate_on_submit():
-        if verificarAutor(form.autor.data):
-            if verificarTitulo(form.titulo.data):
-                resumo = Resumo(titulo=form.titulo.data, texto=form.texto.data, autor=form.autor.data)
-                try:
-                    # add o resumo no banco de dados
-                    db.session.add(resumo)
-                    db.session.commit()
-                    flash('Seu resumo foi submetido com sucesso.')
-                    distribuir_resumo(id)
-                except:
-                    # caso o resumo já tenha sido submetido
-                    flash('Error: O resumo já foi enviado.')
+    if not verificar_data():
+        if form.validate_on_submit():
+            if verificarAutor(form.autor.data):
+                if verificarTitulo(form.titulo.data):
+                    resumo = Resumo(titulo=form.titulo.data, texto=form.texto.data, autor=form.autor.data)
+                    try:
+                        # add o resumo no banco de dados
+                        db.session.add(resumo)
+                        db.session.commit()
+                        flash('Seu resumo foi submetido com sucesso.')
+                        distribuir_resumo(id)
+                    except:
+                        # caso o resumo já tenha sido submetido
+                        flash('Error: O resumo já foi enviado.')
 
-                # redirect to departments page
-                return redirect(url_for('aluno.visualizar_resumos'))
+                    # redirect to departments page
+                    return redirect(url_for('aluno.visualizar_resumos'))
+                else:
+                    flash('Error: Titulo invalido.')
             else:
-                flash('Error: Titulo invalido.')
-        else:
-            flash('Error: Nome autor invalido.')
+                flash('Error: Nome autor invalido.')
+    else:
+        flash('Prazo encerrado.')    
     # load resumos template
     return render_template('aluno/resumos/resumo.html', action="Add",add_resumo=True, form=form,title="Submeter resumo")
 
@@ -79,11 +83,24 @@ def verificarAutor(field):
     if not re.search(r"/d",field, re.MULTILINE):
         return True
     return False
-    
+
 def  verificarTitulo(field):
     if not re.search(r"/W", field, re.MULTILINE):
         return True
     return False
+
+def verificar_data():
+    dataHoje = date.today()
+    data = ''
+    if (dataHoje.day < 10) and (dataHoje.month < 10):
+        data = '0{}/0{}/{}'.format(dataHoje.day,dataHoje.month, dataHoje.year)
+    elif dataHoje.day < 10:
+        data = '0{}/{}/{}'.format(dataHoje.day,dataHoje.month, dataHoje.year)
+    elif dataHoje.month < 10:
+        data = '{}/0{}/{}'.format(dataHoje.day,dataHoje.month, dataHoje.year)
+    else:
+        data = '{}/{}/{}'.format(dataHoje.day,dataHoje.month, dataHoje.year)
+    return data > '15/12/2018'
 
 @aluno.route('/aluno/alterar/<int:id>', methods=['GET', 'POST'])
 @login_required
