@@ -79,6 +79,7 @@ def verificarAutor(field):
     if not re.search(r"/d",field, re.MULTILINE):
         return True
     return False
+    
 def  verificarTitulo(field):
     if not re.search(r"/W", field, re.MULTILINE):
         return True

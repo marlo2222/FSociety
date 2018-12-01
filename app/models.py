@@ -37,7 +37,7 @@ class Resumo(db.Model):
     texto = db.Column(db.String(512))
     situacao = db.Column(db.String(32), default='Submetido')
     autores = db.relationship('Usuario', secondary=fk_usuarios_resumos, lazy='subquery',
-    backref=db.backref('fk_resumos',lazy=True))
+                                backref=db.backref('fk_resumos',lazy=True))
 
     def __repr__(self):
         return '<Resumo: {}>'.format(self.titulo)
@@ -57,8 +57,5 @@ def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
 fk_usuarios_resumos = db.Table('autores_do_resumo',
-db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
-db.Column('resumo_id', db.Integer, db.ForeignKey('resumos.id'), primary_key=True))
-
-def informar_autores():
-    pass
+                                db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+                                db.Column('resumo_id', db.Integer, db.ForeignKey('resumos.id'), primary_key=True))

@@ -47,10 +47,6 @@ def verificaSenha(field):
             return True
         return False
     return False
-<<<<<<< HEAD
-=======
-
->>>>>>> 65aa5e1ac2abf1563c1327e1e52c020426d432eb
 def verificar_email(field):
     if (re.search(r"alu.ufc.com", field, re.MULTILINE)):
         return True, False
