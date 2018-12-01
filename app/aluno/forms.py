@@ -1,8 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField,ValidationError
-
-from wtforms import StringField, SubmitField, IntegerField
-from wtforms import StringField, SubmitField, IntegerField
+from wtforms import StringField, SubmitField,ValidationError, TextAreaField
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from ..models import Resumo
@@ -12,7 +9,7 @@ class SubmissaoForm(FlaskForm):
     titulo = StringField('Titulo', validators=[DataRequired()])
     texto = StringField('Texto', validators=[DataRequired()])
     #Trocar para TextField
-    autor = TextField('Autor', validators=[DataRequired()])
+    autor = TextAreaField('Autor', validators=[DataRequired()])
     #co_autor = StringField('Co-Autores', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
